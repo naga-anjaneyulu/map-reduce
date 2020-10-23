@@ -20,7 +20,8 @@ public class MasterService {
 	public String storeInputData(StringBuilder data, String key) throws IOException {
 		System.out.println("Splitting data and storing in keyvalue store");
 		 String inputData = data.toString();
-		 Socket socket = new Socket("keyStore",9090); 
+		 
+		 Socket socket = new Socket("35.199.88.215",9090); 
 		 DataOutputStream out = new DataOutputStream(socket.getOutputStream()); 
 		 DataInputStream input = new DataInputStream(socket.getInputStream());
 		 byte[] bytes = inputData.getBytes("UTF-8");
