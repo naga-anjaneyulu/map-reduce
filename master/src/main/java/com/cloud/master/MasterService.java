@@ -82,8 +82,6 @@ public class MasterService {
 				 if(ack.length() > 0) {
 					 fileList = new StringBuilder();}
 			 }else {
-				 fileList.append("/home/nakopa/map-reduce/master/src/main/resources/data");
-				 fileList.append("/");
 				 fileList.append(files[i].getName());
 				 fileList.append("-"); } }
 		 if(fileList.length() > 0) {

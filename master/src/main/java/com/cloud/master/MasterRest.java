@@ -41,14 +41,15 @@ public class MasterRest {
         reduceFunction = reqBody.get("reduceFunction");
         
         if(mapFunction.equals("wc")) {
-        	//masterService.processWCInput(mappers);
+        	masterService.processWCInput(mappers);
 		}else {
-			//masterService.processIIInput(mappers);
+			masterService.processIIInput(mappers);
 		}
 
-       Compute compute = ComputeEngine.getComputeEngine();
-       Operation op = ComputeEngine.startInstance(compute,"mapper");
-       Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
+       //Compute compute = ComputeEngine.getComputeEngine();
+       //Operation op = ComputeEngine.startInstance(compute,"mapper");
+      // Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
+        Operation.Error error = null;
        if (error == null) {
     	   System.out.println("Success!");
     	   result.put("Status","Success");
