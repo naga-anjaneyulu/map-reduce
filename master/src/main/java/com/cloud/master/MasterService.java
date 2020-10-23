@@ -21,7 +21,7 @@ public class MasterService {
 		System.out.println("Splitting data and storing in keyvalue store");
 		 String inputData = data.toString();
 		 
-		 Socket socket = new Socket("35.199.88.215",9092); 
+		 Socket socket = new Socket("10.158.0.11",9092); 
 		 DataOutputStream out = new DataOutputStream(socket.getOutputStream()); 
 		 DataInputStream input = new DataInputStream(socket.getInputStream());
 		 byte[] bytes = inputData.getBytes("UTF-8");
