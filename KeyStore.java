@@ -232,7 +232,7 @@ public class KeyStore implements Runnable {
 		// 9029
 		//String keyAddress = args[0];
 		//String port = args[1];
-		Thread server = new Thread(new KeyStore("localhost",9090);
+		Thread server = new Thread(new KeyStore("localhost",9090));
 		server.start();
 		System.out.println("Server started");
 	}
