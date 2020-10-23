@@ -74,7 +74,7 @@ public class ComputeEngine {
 		      // Authenticate using Google Application Default Credentials.
 		      //GoogleCredentials credential = GoogleCredentials.getApplicationDefault();
 			  String path = System.getProperty("user.dir");
-		      GoogleCredentials credential = GoogleCredentials.fromStream(new FileInputStream(path+"/src/main/resources/naga-kopalle-827f0db825ab.json"))
+		      GoogleCredentials credential = GoogleCredentials.fromStream(new FileInputStream("/home/nakopa/map-reduce/master/src/main/resources/credentails/naga-kopalle-827f0db825ab.json"))
 		    	        .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
 		      
 		      if (credential.createScopedRequired()) {
