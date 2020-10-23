@@ -41,7 +41,7 @@ public class MasterService {
 	public void processWCInput(int mappers) throws IOException {
 		System.out.println("Processing WC Input data");
 		 String filePath = System.getProperty("user.dir");
-		 FileReader file = new FileReader(filePath+"\\src\\main\\java\\resources\\input.txt");
+		 FileReader file = new FileReader(filePath+"/src/main/java/resources/input.txt");
 		 Scanner scanner = new Scanner(file);
 		 List<String> lines = new ArrayList<>();
 		 while(scanner.hasNext()) lines.add(scanner.nextLine());
@@ -72,7 +72,7 @@ public class MasterService {
 	public void processIIInput(int mappers) throws IOException {
 		System.out.println("Processing II Input data");
         String filePath = System.getProperty("user.dir");
-		File path = new File(filePath+"\\src\\main\\java\\resources");
+		File path = new File(filePath+"/src/main/java/resources");
 	    File [] files = path.listFiles();
 	    int splitSize = files.length/mappers;int count =1;
 	    StringBuilder fileList = new StringBuilder();
@@ -82,8 +82,8 @@ public class MasterService {
 				 if(ack.length() > 0) {
 					 fileList = new StringBuilder();}
 			 }else {
-				 fileList.append(filePath+"\\src\\main\\java\\resources");
-				 fileList.append("\\");
+				 fileList.append(filePath+"/src/main/java/resources");
+				 fileList.append("/");
 				 fileList.append(files[i].getName());
 				 fileList.append("-"); } }
 		 if(fileList.length() > 0) {
