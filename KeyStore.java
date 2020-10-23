@@ -213,6 +213,9 @@ public class KeyStore implements Runnable {
 			InetAddress inetAddress=InetAddress.getByName(this.keyAddress);  
 			SocketAddress socketAddress=new InetSocketAddress(inetAddress, this.port);  
 			server.bind(socketAddress);  
+			System.out.println("Server Inet Address" + server.getInetAddress());
+			System.out.println("Server Local Port" + server.getLocalPort());
+			System.out.println("Server Local Socket Addres" + server.getLocalSocketAddress());
 			while(true) {
 				this.socket = server.accept(); 
 				Thread t = new Thread(new KeyStoreThread(this.socket));

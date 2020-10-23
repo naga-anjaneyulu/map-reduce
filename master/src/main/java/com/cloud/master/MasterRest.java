@@ -62,5 +62,16 @@ public class MasterRest {
     }
 	
 	
+	@RequestMapping(value = "/mapData")
+    public ResponseEntity<?> getMapperId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Map<String, String> result = new HashMap<>();
+        result.put("id",Integer.toString(mappers--));
+        result.put("fileName","master");
+
+        return ResponseEntity.ok(result);
+    }
+	
+	
+	
 
 }
