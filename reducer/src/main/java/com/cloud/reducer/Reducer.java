@@ -170,12 +170,10 @@ public class Reducer {
     		try(OutputStream os = http.getOutputStream()) {
     		    os.write(out);
     		}
-    		
+    		System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-        	
-        	URL url = new URL("http://34.95.152.19:8080/killReducer");
+            URL url = new URL("http://34.95.152.19:8080/killReducer");
     		con = (HttpURLConnection) url.openConnection();
     		HttpURLConnection http = (HttpURLConnection)con;
     		http.setRequestMethod("POST"); 
@@ -188,6 +186,9 @@ public class Reducer {
     		try(OutputStream os = http.getOutputStream()) {
     		    os.write(out);
     		}
+        } finally {
+        	
+        	
         	
             try {
                 if(in != null)
@@ -198,13 +199,6 @@ public class Reducer {
                 e.printStackTrace();
             }
         }
-		
-		
-		
-		
-		
-		System.exit(0);
-	
 	}
 	
 	

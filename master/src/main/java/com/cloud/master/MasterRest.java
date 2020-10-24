@@ -171,7 +171,7 @@ public class MasterRest {
 	    		  mapStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
 	    		 System.out.println("Deleting Instance because of error");
    			     Compute compute = ComputeEngine.getComputeEngine();
-   	             Operation op = ComputeEngine.deleteInstance(compute,"mapper"+map.getKey().toString());
+   	             Operation op = ComputeEngine.deleteInstance(compute,"mapper"+arr[0].trim());
    	             Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
    	           if (error == null) {
    	        	   System.out.println("Success!");
@@ -217,7 +217,7 @@ public class MasterRest {
 	    		  redStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
 	    		  System.out.println("Deleting Instance because of error");
 	   			     Compute compute = ComputeEngine.getComputeEngine();
-	   	             Operation op = ComputeEngine.deleteInstance(compute,"reducer"+map.getKey().toString());
+	   	             Operation op = ComputeEngine.deleteInstance(compute,"reducer"+arr[0].trim());
 	   	             Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
 	   	           if (error == null) {
 	   	        	   System.out.println("Success!");

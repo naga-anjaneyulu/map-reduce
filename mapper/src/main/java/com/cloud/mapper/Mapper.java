@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
@@ -112,7 +113,7 @@ public class Mapper {
        }}
 	
 	
-	public void start() {
+	public void start() throws IOException {
 
 		System.out.println("Mapper Started");
 		HashMap<String,String> response = new HashMap<>();
@@ -170,38 +171,32 @@ public class Mapper {
     		try(OutputStream os = http.getOutputStream()) {
     		    os.write(out);
     		}
-    
+    		System.exit(0);
         } catch (Exception e) {
             e.printStackTrace();
+            URL url = new URL("http://34.95.152.19:8080/killMapper");
+    		con = (HttpURLConnection) url.openConnection();
+    		HttpURLConnection http = (HttpURLConnection)con;
+    		http.setRequestMethod("POST"); 
+    		http.setDoOutput(true);
+    		String msg = this.mapKey+" "+0;
+    		byte[] out = ("{\"key\":\""+msg+"\"}").getBytes(StandardCharsets.UTF_8);
+    		int length = out.length;
+    		http.setFixedLengthStreamingMode(length);
+    		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+    		http.connect();
+    		try(OutputStream os = http.getOutputStream()) {
+    		    os.write(out);
+    		}
         } finally {
-            try {
-            	URL url = new URL("http://34.95.152.19:8080/killMapper");
-        		con = (HttpURLConnection) url.openConnection();
-        		HttpURLConnection http = (HttpURLConnection)con;
-        		http.setRequestMethod("POST"); 
-        		http.setDoOutput(true);
-        		String msg = this.mapKey+" "+0;
-        		byte[] out = ("{\"key\":\""+msg+"\"}").getBytes(StandardCharsets.UTF_8);
-        		int length = out.length;
-        		http.setFixedLengthStreamingMode(length);
-        		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        		http.connect();
-        		try(OutputStream os = http.getOutputStream()) {
-        		    os.write(out);
-        		}
-            	
-            	
-            	
-            	
+            
                 if(in != null)
                     in.close();
                 if(con != null)
                     con.disconnect();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            
         }
-		System.exit(0);
+		
 		
 	
 	}
