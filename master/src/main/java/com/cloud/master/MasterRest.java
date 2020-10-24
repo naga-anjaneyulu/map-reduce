@@ -46,7 +46,7 @@ public class MasterRest {
         reducers = Integer.parseInt(reqBody.get("reducers"));
         mapFunction = reqBody.get("mapFunction");
         reduceFunction = reqBody.get("reduceFunction");
-        
+        reducers = reducers-1;
         if(mapFunction.equals("wc")) {
         	masterService.processWCInput(mappers);
 		}else {
@@ -75,7 +75,7 @@ public class MasterRest {
        checkStatus("mapper",mapStatusMap,mappers);
        
     
-       for(int i = 0; i < reducers;i++) {
+       for(int i = 0; i <= reducers;i++) {
     	   Compute compute = ComputeEngine.getComputeEngine();
            Operation op = ComputeEngine.startInstance(compute,"reducer"+i,"reducer.sh");
            Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
