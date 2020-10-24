@@ -1,5 +1,5 @@
 git pull origin main
-cd mapper
+cd master
 mvn clean install
 cd target
-java -jar mapper-0.0.1-SNAPSHOT.jar
+java -jar master-0.0.1-SNAPSHOT.jar
