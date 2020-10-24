@@ -150,7 +150,15 @@ public class MasterRest {
 	      Map<String, String> reqBody = requestParser.processRequest(request);
 	      
 	      for(Map.Entry<String,String> map : reqBody.entrySet()) {
-	    	  mapStatusMap.put(Integer.parseInt(map.getValue().trim()),"Completed");
+	    	  String[] arr = map.getValue().trim().split("\\s");
+	    	  if(arr[1].equals("1"))
+	    	     mapStatusMap.put(Integer.parseInt(arr[0].trim()),"Completed");
+	    	  else {
+	    		  mapStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
+	    		  startNewInstance(Integer.parseInt(arr[0].trim()),"mapper");
+	    	  }
+	    		
+	    	   
 	      }
 	      
 	      
@@ -175,7 +183,15 @@ public class MasterRest {
 	      Map<String, String> reqBody = requestParser.processRequest(request);
 	      
 	      for(Map.Entry<String,String> map : reqBody.entrySet()) {
-	    	  redStatusMap.put(Integer.parseInt(map.getValue().trim()),"Completed");
+	    	  String[] arr = map.getValue().trim().split("\\s");
+	    	  if(arr[1].equals("1"))
+	    	     redStatusMap.put(Integer.parseInt(arr[0].trim()),"Completed");
+	    	  else {
+	    		  redStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
+	    		  startNewInstance(Integer.parseInt(arr[0].trim()),"reducer");
+	    	  }
+	    		  
+	    		  
 	      }
 	      
 	      

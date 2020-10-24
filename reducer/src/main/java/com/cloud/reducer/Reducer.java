@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 @Component("reduce")
@@ -117,7 +118,7 @@ public class Reducer {
        }}
 	
 	
-	public void start() {
+	public void start() throws IOException {
 
 		System.out.println("Reducer Started");
 		HashMap<String,String> response = new HashMap<>();
@@ -159,7 +160,7 @@ public class Reducer {
     		HttpURLConnection http = (HttpURLConnection)con;
     		http.setRequestMethod("POST"); 
     		http.setDoOutput(true);
-    		byte[] out = ("{\"key\":\""+this.key+"\"}").getBytes(StandardCharsets.UTF_8);
+    		byte[] out = ("{\"key\":\""+this.key+" 1\"}").getBytes(StandardCharsets.UTF_8);
     		int length = out.length;
     		http.setFixedLengthStreamingMode(length);
     		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -169,6 +170,18 @@ public class Reducer {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+        	
+        	URL url = new URL("http://34.95.152.19:8080/killReducer");
+    		con = (HttpURLConnection) url.openConnection();
+    		HttpURLConnection http = (HttpURLConnection)con;
+    		http.setRequestMethod("POST"); 
+    		http.setDoOutput(true);
+    		byte[] out = ("{\"key\":\""+this.key+" 0\"}").getBytes(StandardCharsets.UTF_8);
+    		int length = out.length;
+    		http.setFixedLengthStreamingMode(length);
+    		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        	
+        	
             try {
                 if(in != null)
                     in.close();

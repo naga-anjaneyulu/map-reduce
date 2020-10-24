@@ -1,3 +1,4 @@
+cd map-reduce
 cd reducer
 mvn clean install
 cd target

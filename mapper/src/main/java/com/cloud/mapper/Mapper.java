@@ -36,7 +36,8 @@ public class Mapper {
 		Socket socket = new Socket(address,Integer.parseInt(port));  
 		DataOutputStream out = new DataOutputStream(socket.getOutputStream()); 
 		DataInputStream input = new DataInputStream(socket.getInputStream());
-		out.writeUTF("get \r\n mapper \r\n "+this.mapKey+" \r\n "+this.inputFile+" \r\n "+ this.function + " \r\n "); 
+		System.out.println("get \r\n mapper \r\n map"+this.function+this.mapKey+" \r\n "+this.inputFile+" \r\n "+ this.function + " \r\n ");
+		out.writeUTF("get \r\n mapper \r\n map"+this.function+this.mapKey+" \r\n "+this.inputFile+" \r\n "+ this.function + " \r\n "); 
 		String msg = "";
 		String value = input.readUTF();
 		msg += value;
@@ -64,7 +65,7 @@ public class Mapper {
 				Socket socket = new Socket(address, Integer.parseInt(port)); 
 				DataOutputStream out = new DataOutputStream(socket.getOutputStream()); 
 				DataInputStream input = new DataInputStream(socket.getInputStream());
-				
+				System.out.println("set \r\n mapper \r\n  red"+this.function+partition+" \r\n "+s+" \r\n "+1+" \r\n");
 				String line = "set \r\n mapper \r\n  red"+this.function+partition+" \r\n "+s+" \r\n "+1+" \r\n";
 				String ack = "";
 				out.writeUTF(line); 
@@ -140,10 +141,10 @@ public class Mapper {
     		String port = response.get("keyStorePort");
     		System.out.println("function @ mapper ---> "+function  +"with key --->"+ key);
     		
-    		this.mapKey = key;
+    		this.mapKey = key.trim();
     		this.reducers = reducers;
-    		this.inputFile = file;
-    		this.function = function;
+    		this.inputFile = file.trim();
+    		this.function = function.trim();
     		String inputData = loadInput(address,port);
     		if(function.trim().equals("wc")) {
     			System.out.println("Mapper Enter WC");
@@ -159,7 +160,7 @@ public class Mapper {
     		HttpURLConnection http = (HttpURLConnection)con;
     		http.setRequestMethod("POST"); 
     		http.setDoOutput(true);
-    		byte[] out = ("{\"key\":\""+key+"\"}").getBytes(StandardCharsets.UTF_8);
+    		byte[] out = ("{\"key\":\""+this.mapKey+" 1\"}").getBytes(StandardCharsets.UTF_8);
     		int length = out.length;
     		http.setFixedLengthStreamingMode(length);
     		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -170,6 +171,21 @@ public class Mapper {
             e.printStackTrace();
         } finally {
             try {
+            	URL url = new URL("http://34.95.152.19:8080/killMapper");
+        		con = (HttpURLConnection) url.openConnection();
+        		HttpURLConnection http = (HttpURLConnection)con;
+        		http.setRequestMethod("POST"); 
+        		http.setDoOutput(true);
+        		byte[] out = ("{\"key\":\""+this.mapKey+" 0\"}").getBytes(StandardCharsets.UTF_8);
+        		int length = out.length;
+        		http.setFixedLengthStreamingMode(length);
+        		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        		http.connect();
+        		
+            	
+            	
+            	
+            	
                 if(in != null)
                     in.close();
                 if(con != null)
