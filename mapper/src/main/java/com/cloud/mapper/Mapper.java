@@ -161,7 +161,8 @@ public class Mapper {
     		HttpURLConnection http = (HttpURLConnection)con;
     		http.setRequestMethod("POST"); 
     		http.setDoOutput(true);
-    		byte[] out = ("{\"key\":\""+this.mapKey+" 1\"}").getBytes(StandardCharsets.UTF_8);
+    		String msg = this.mapKey+" "+1;
+    		byte[] out = ("{\"key\":\""+msg+"\"}").getBytes(StandardCharsets.UTF_8);
     		int length = out.length;
     		http.setFixedLengthStreamingMode(length);
     		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
@@ -179,7 +180,8 @@ public class Mapper {
         		HttpURLConnection http = (HttpURLConnection)con;
         		http.setRequestMethod("POST"); 
         		http.setDoOutput(true);
-        		byte[] out = ("{\"key\":\""+this.mapKey+" 0\"}").getBytes(StandardCharsets.UTF_8);
+        		String msg = this.mapKey+" "+0;
+        		byte[] out = ("{\"key\":\""+msg+"\"}").getBytes(StandardCharsets.UTF_8);
         		int length = out.length;
         		http.setFixedLengthStreamingMode(length);
         		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");

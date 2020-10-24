@@ -163,11 +163,21 @@ public class MasterRest {
 	      Map<String, String> reqBody = requestParser.processRequest(request);
 	      
 	      for(Map.Entry<String,String> map : reqBody.entrySet()) {
+	    	  System.out.println("Recieved msg ==>"+map.getValue());
 	    	  String[] arr = map.getValue().trim().split("\\s");
-	    	  if(arr[1].equals("1"))
+	    	  if(arr[1].trim().equals("1"))
 	    	     mapStatusMap.put(Integer.parseInt(arr[0].trim()),"Completed");
 	    	  else {
 	    		  mapStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
+	    		 System.out.println("Deleting Instance because of error");
+   			     Compute compute = ComputeEngine.getComputeEngine();
+   	             Operation op = ComputeEngine.deleteInstance(compute,"mapper"+map.getKey().toString());
+   	             Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
+   	           if (error == null) {
+   	        	   System.out.println("Success!");
+   	           } else {
+   	        	   System.out.println(error.toPrettyString());
+   	           }
 	    		  startNewInstance(Integer.parseInt(arr[0].trim()),"mapper");
 	    	  }
 	    		
@@ -199,11 +209,21 @@ public class MasterRest {
 	      Map<String, String> reqBody = requestParser.processRequest(request);
 	      
 	      for(Map.Entry<String,String> map : reqBody.entrySet()) {
+	    	  System.out.println("Recieved msg ==>"+map.getValue());
 	    	  String[] arr = map.getValue().trim().split("\\s");
-	    	  if(arr[1].equals("1"))
+	    	  if(arr[1].trim().equals("1"))
 	    	     redStatusMap.put(Integer.parseInt(arr[0].trim()),"Completed");
 	    	  else {
 	    		  redStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
+	    		  System.out.println("Deleting Instance because of error");
+	   			     Compute compute = ComputeEngine.getComputeEngine();
+	   	             Operation op = ComputeEngine.deleteInstance(compute,"reducer"+map.getKey().toString());
+	   	             Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
+	   	           if (error == null) {
+	   	        	   System.out.println("Success!");
+	   	           } else {
+	   	        	   System.out.println(error.toPrettyString());
+	   	           }
 	    		  startNewInstance(Integer.parseInt(arr[0].trim()),"reducer");
 	    	  }
 	    		  
