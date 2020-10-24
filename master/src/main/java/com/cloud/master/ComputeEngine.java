@@ -134,7 +134,7 @@ public class ComputeEngine {
 	  // [END list_instances]
 
 	  // [START create_instances]
-	  public static  Operation startInstance(Compute compute, String instanceName) throws IOException {
+	  public static  Operation startInstance(Compute compute, String instanceName,String script) throws IOException {
 	    System.out.println("================== Starting New Instance ==================");
 
 	    // Create VM Instance object with the required properties.
@@ -194,7 +194,7 @@ public class ComputeEngine {
 	    // bucket named the same as your PROJECT_ID.
 	    // For info on creating buckets see:
 	    // https://cloud.google.com/storage/docs/cloud-console#_creatingbuckets
-	    item.setValue(String.format("gs://cloud-assign/init.sh", BUCKET_ID));
+	    item.setValue(String.format("gs://%s/"+script, BUCKET_ID));
 	    meta.setItems(Collections.singletonList(item));
 	    instance.setMetadata(meta);
 

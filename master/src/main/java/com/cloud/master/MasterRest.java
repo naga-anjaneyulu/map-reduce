@@ -58,7 +58,7 @@ public class MasterRest {
        for(int i = 1; i <= mappers ;i++) {
     	   
     	   Compute compute = ComputeEngine.getComputeEngine();
-           Operation op = ComputeEngine.startInstance(compute,"mapper"+i);
+           Operation op = ComputeEngine.startInstance(compute,"mapper"+i,"mapper.sh");
            Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
            if (error == null) {
         	   System.out.println("Success!");
@@ -77,7 +77,7 @@ public class MasterRest {
     
        for(int i = 0; i < reducers;i++) {
     	   Compute compute = ComputeEngine.getComputeEngine();
-           Operation op = ComputeEngine.startInstance(compute,"reducer"+i);
+           Operation op = ComputeEngine.startInstance(compute,"reducer"+i,"reducer.sh");
            Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
            if (error == null) {
         	   System.out.println("Success!");
@@ -113,10 +113,10 @@ public class MasterRest {
 		 Compute compute = ComputeEngine.getComputeEngine();
 		 Operation op ;
 		 if(processType.equals("mapper")) {
-			  op = ComputeEngine.startInstance(compute,"mapper"+key);
+			  op = ComputeEngine.startInstance(compute,"mapper"+key,"mapper.sh");
 			 mapQueue.add(key);
 		 }else {
-			  op = ComputeEngine.startInstance(compute,"reducer"+key);
+			  op = ComputeEngine.startInstance(compute,"reducer"+key,"reducer.sh");
 			 redQueue.add(key);
 		 }
          
