@@ -72,7 +72,7 @@ public class MasterRest {
        }
        
        
-       checkStatus("mapper",mapStatusMap,mappers);
+       checkStatus("mapper",mappers);
        
     
        for(int i = 0; i <= reducers;i++) {
@@ -89,15 +89,19 @@ public class MasterRest {
        }
         
        
-       checkStatus("reducer",redStatusMap,reducers);
+       checkStatus("reducer",reducers);
        
         return ResponseEntity.ok(result);
     }
 	
 	
-	private void checkStatus(String processType,HashMap<Integer,String> statusMap,int count) throws Exception {
-		
+	private void checkStatus(String processType,int count) throws Exception {
+		HashMap<Integer,String> statusMap ;
 	       while(count > 0) {
+	    	   if(processType.equals("mapper"))
+	    		   statusMap = mapStatusMap;
+	    	   else
+	    		   statusMap = redStatusMap;
 	    	   
 	    	   for(Map.Entry<Integer,String> map :statusMap.entrySet()) {
 	    		   if(map.getValue().equals("Completed")) count--;
@@ -165,9 +169,14 @@ public class MasterRest {
 	      for(Map.Entry<String,String> map : reqBody.entrySet()) {
 	    	  System.out.println("Recieved msg ==>"+map.getValue());
 	    	  String[] arr = map.getValue().trim().split("\\s");
-	    	  if(arr[1].trim().equals("1"))
+	    	  if(arr[1].trim().equals("1")) {
 	    	     mapStatusMap.put(Integer.parseInt(arr[0].trim()),"Completed");
-	    	  else {
+	    	  System.out.println("Deleting Instance because of success");
+			     Compute compute = ComputeEngine.getComputeEngine();
+	             Operation op = ComputeEngine.deleteInstance(compute,"mapper"+arr[0].trim());
+	             Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
+	                      
+	    	  }else {
 	    		  mapStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
 	    		 System.out.println("Deleting Instance because of error");
    			     Compute compute = ComputeEngine.getComputeEngine();
@@ -211,9 +220,18 @@ public class MasterRest {
 	      for(Map.Entry<String,String> map : reqBody.entrySet()) {
 	    	  System.out.println("Recieved msg ==>"+map.getValue());
 	    	  String[] arr = map.getValue().trim().split("\\s");
-	    	  if(arr[1].trim().equals("1"))
+	    	  if(arr[1].trim().equals("1")) {
 	    	     redStatusMap.put(Integer.parseInt(arr[0].trim()),"Completed");
-	    	  else {
+	    	  System.out.println("Deleting Instance because of success");
+			     Compute compute = ComputeEngine.getComputeEngine();
+	             Operation op = ComputeEngine.deleteInstance(compute,"mapper"+arr[0].trim());
+	             Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
+	           if (error == null) {
+	        	   System.out.println("Success!");
+	           } else {
+	        	   System.out.println(error.toPrettyString());
+	           }
+	    	  } else {
 	    		  redStatusMap.put(Integer.parseInt(arr[0].trim()),"Error");
 	    		  System.out.println("Deleting Instance because of error");
 	   			     Compute compute = ComputeEngine.getComputeEngine();
