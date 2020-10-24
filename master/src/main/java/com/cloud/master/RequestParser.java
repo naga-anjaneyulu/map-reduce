@@ -19,7 +19,7 @@ public class RequestParser {
 		
 		 Map<String, String> postBody = new HashMap<>();
 	        try {
-	            populatePostBody(postBody, request.getReader().lines().collect(Collectors.joining()));
+	        	processRequestBody(postBody, request.getReader().lines().collect(Collectors.joining()));
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
@@ -27,7 +27,7 @@ public class RequestParser {
 		
 	}
 
-	private void populatePostBody(Map<String, String> postBody, String body) {
+	private void processRequestBody(Map<String, String> postBody, String body) {
 		try {
             JSONObject userDetails = (JSONObject) new JSONParser().parse(body);
             for(Object key: userDetails.keySet()) {
