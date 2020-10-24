@@ -56,7 +56,7 @@ public class MasterRest {
         
         
        for(int i = 1; i <= mappers ;i++) {
-    	   
+    	   System.out.println("Creating mappers");
     	   Compute compute = ComputeEngine.getComputeEngine();
            Operation op = ComputeEngine.startInstance(compute,"mapper"+i,"mapper.sh");
            Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
@@ -98,9 +98,19 @@ public class MasterRest {
 	private void checkStatus(String processType,HashMap<Integer,String> statusMap,int count) throws Exception {
 		
 	       while(count > 0) {
+	    	   
 	    	   for(Map.Entry<Integer,String> map :statusMap.entrySet()) {
 	    		   if(map.getValue().equals("Completed")) count--;
 	    		   else if(map.getValue().equals("Error")) {
+	    			   System.out.println("Deleting Instance because of error");
+	    			   Compute compute = ComputeEngine.getComputeEngine();
+	    	           Operation op = ComputeEngine.deleteInstance(compute,processType+map.getKey().toString());
+	    	           Operation.Error error = ComputeEngine.blockUntilComplete(compute, op, 60*1000);
+	    	           if (error == null) {
+	    	        	   System.out.println("Success!");
+	    	           } else {
+	    	        	   System.out.println(error.toPrettyString());
+	    	           }
 	    			   startNewInstance(map.getKey(),processType);
 	    		   }
 	    	   }
@@ -133,6 +143,7 @@ public class MasterRest {
 
 	@RequestMapping(value = "/mapData")
     public ResponseEntity<?> getMapperData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 System.out.println("Responding to get mapData");
         Map<String, String> result = new HashMap<>();
         while(mapQueue.size() == 0) continue;
         result.put("key",Integer.toString(mapQueue.poll()));
@@ -141,11 +152,13 @@ public class MasterRest {
         result.put("mapFunction", mapFunction);
         result.put("keyStoreAddress","35.199.88.215");
         result.put("keyStorePort","8080");
+        System.out.println("Finished Responding to get mapData");
         return ResponseEntity.ok(result);
     }
 	
 	@RequestMapping(value = "/killMapper")
     public ResponseEntity<?> killMapper(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Responding to KillMapper");
 		  Map<String, String> result = new HashMap<>();
 	      Map<String, String> reqBody = requestParser.processRequest(request);
 	      
@@ -160,7 +173,7 @@ public class MasterRest {
 	    		
 	    	   
 	      }
-	      
+	      System.out.println("Finshed Responding to KillMapper");
 	      
         return ResponseEntity.ok(result);
     }
@@ -168,17 +181,20 @@ public class MasterRest {
 
 	@RequestMapping(value = "/redData")
     public ResponseEntity<?> getReducerrData(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Responding to RedData");
         Map<String, String> result = new HashMap<>();
         while(redQueue.size() == 0) continue;
         result.put("key",Integer.toString(redQueue.poll()));
         result.put("redFunction", reduceFunction);
         result.put("keyStoreAddress","35.199.88.215");
         result.put("keyStorePort","8080");
+        System.out.println("Finished Responding to redData");
         return ResponseEntity.ok(result);
     }
 	
 	@RequestMapping(value = "/killReducer")
     public ResponseEntity<?> killReducer(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("Responding to KillReducer");
 		  Map<String, String> result = new HashMap<>();
 	      Map<String, String> reqBody = requestParser.processRequest(request);
 	      
@@ -193,7 +209,8 @@ public class MasterRest {
 	    		  
 	    		  
 	      }
-	      
+			System.out.println("Finished Responding to KillReducer");
+
 	      
         return ResponseEntity.ok(result);
     }

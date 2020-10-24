@@ -1,4 +1,5 @@
 cd map-reduce
+git pull origin main
 cd reducer
 mvn clean install
 cd target

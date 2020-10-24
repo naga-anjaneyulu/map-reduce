@@ -194,7 +194,7 @@ public class ComputeEngine {
 	    // bucket named the same as your PROJECT_ID.
 	    // For info on creating buckets see:
 	    // https://cloud.google.com/storage/docs/cloud-console#_creatingbuckets
-	    item.setValue(String.format("gs://%s/"+script, BUCKET_ID));
+	    item.setValue(String.format("gs://cloud-assign/"+script, BUCKET_ID));
 	    meta.setItems(Collections.singletonList(item));
 	    instance.setMetadata(meta);
 
@@ -204,7 +204,7 @@ public class ComputeEngine {
 	  }
 	  // [END create_instances]
 
-	  private  Operation deleteInstance(Compute compute, String instanceName) throws Exception {
+	  public static Operation deleteInstance(Compute compute, String instanceName) throws Exception {
 	    System.out.println(
 	        "================== Deleting Instance " + instanceName + " ==================");
 	    Compute.Instances.Delete delete =
