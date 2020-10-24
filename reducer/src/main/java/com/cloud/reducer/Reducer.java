@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -165,7 +166,9 @@ public class Reducer {
     		http.setFixedLengthStreamingMode(length);
     		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
     		http.connect();
-
+    		try(OutputStream os = http.getOutputStream()) {
+    		    os.write(out);
+    		}
     		
         } catch (Exception e) {
             e.printStackTrace();
@@ -180,7 +183,9 @@ public class Reducer {
     		int length = out.length;
     		http.setFixedLengthStreamingMode(length);
     		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        	
+    		try(OutputStream os = http.getOutputStream()) {
+    		    os.write(out);
+    		}
         	
             try {
                 if(in != null)

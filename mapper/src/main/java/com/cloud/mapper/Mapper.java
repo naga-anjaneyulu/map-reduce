@@ -15,6 +15,7 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -165,7 +166,9 @@ public class Mapper {
     		http.setFixedLengthStreamingMode(length);
     		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
     		http.connect();
-    		
+    		try(OutputStream os = http.getOutputStream()) {
+    		    os.write(out);
+    		}
     
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,7 +184,9 @@ public class Mapper {
         		http.setFixedLengthStreamingMode(length);
         		http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         		http.connect();
-        		
+        		try(OutputStream os = http.getOutputStream()) {
+        		    os.write(out);
+        		}
             	
             	
             	
