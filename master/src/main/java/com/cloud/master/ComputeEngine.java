@@ -47,7 +47,7 @@ public class ComputeEngine {
 	  private static final String SOURCE_IMAGE_PREFIX =
 	      "https://www.googleapis.com/compute/v1/projects/";
 	  private static final String SOURCE_IMAGE_PATH =
-	      "naga-kopalle/global/images/master-image";
+	      "naga-kopalle/global/images/assign-image";
 
 	  /** Set the Network configuration values of the sample VM instance to be created. */
 	  private static final String NETWORK_INTERFACE_CONFIG = "ONE_TO_ONE_NAT";
