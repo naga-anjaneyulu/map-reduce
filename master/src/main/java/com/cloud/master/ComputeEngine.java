@@ -74,7 +74,7 @@ public class ComputeEngine {
 		      // Authenticate using Google Application Default Credentials.
 		      //GoogleCredentials credential = GoogleCredentials.getApplicationDefault();
 			  String path = System.getProperty("user.dir");
-		      GoogleCredentials credential = GoogleCredentials.fromStream(new FileInputStream("/home/nakopa/map-reduce/master/src/main/resources/credentials/naga-kopalle-827f0db825ab.json"))
+		      GoogleCredentials credential = GoogleCredentials.fromStream(new FileInputStream("
 		    	        .createScoped(Lists.newArrayList("https://www.googleapis.com/auth/cloud-platform"));
 		      
 		      if (credential.createScopedRequired()) {
@@ -178,7 +178,7 @@ public class ComputeEngine {
 
 	    // Initialize the service account to be used by the VM Instance and set the API access scopes.
 	    ServiceAccount account = new ServiceAccount();
-	    account.setEmail("68769154931-compute@developer.gserviceaccount.com");
+	    account.setEmail();
 	    List<String> scopes = new ArrayList<>();
 	    scopes.add("https://www.googleapis.com/auth/devstorage.full_control");
 	    scopes.add("https://www.googleapis.com/auth/compute");
